@@ -1,0 +1,3 @@
+[submodule "liblzg"]
+	path = liblzg
+	url = git://gitorious.org/liblzg/liblzg.git
