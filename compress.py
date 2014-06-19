@@ -1,4 +1,4 @@
-import sys
+import sys, base64, array
 from lzg.lzg import LZG
 
 def main(args):
@@ -8,9 +8,14 @@ def main(args):
 		return
 
 	ifp = open(args[1], 'r')
-	data = ifp.read()
+	jsondata = ifp.read()
 
-
+	comp = LZG(level=8)
+	payload = comp.compress(jsondata)
+	b64payload = base64.b64encode( array.array('B', payload).tostring() )
+	print b64payload
+	utf16payload = ''
+	
 
 if __name__ == '__main__':
 	main(sys.argv)
