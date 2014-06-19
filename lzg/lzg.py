@@ -8,7 +8,9 @@ class LZG:
 
 
 	def __init__(self, level=5, fast=True):
-	
+
+		level = min(max(level,1),9)
+
 		self.config = {'level':level, 'fast':fast}
 
 	def compress(self, rawtext):
