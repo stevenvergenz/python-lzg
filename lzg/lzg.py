@@ -31,10 +31,10 @@ class LZG:
 
 		return ret
 
-	def decompress(self, enctext):
+	def decompress(self, encbuf):
 
-		cin = create_string_buffer(len(enctext))
-		for i,val in enumerate(enctext):
+		cin = create_string_buffer(len(encbuf))
+		for i,val in enumerate(encbuf):
 			cin[i] = chr(val)
 
 		estDecSize = CLIB['LZG_DecodedSize'](cin, len(cin))
