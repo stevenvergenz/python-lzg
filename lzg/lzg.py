@@ -1,7 +1,7 @@
 from ctypes import *
+import io
 
 CLIB = CDLL('./liblzg/src/lib/liblzg.so')
-
 
 
 class LZG:
@@ -21,14 +21,25 @@ class LZG:
 
 		# get the worst-case on encoded size
 		maxEncSize = CLIB['LZG_MaxEncodedSize'](len(rawtext))
-		print maxEncSize
-		cout = create_string_buffer(maxEncSize+1)
+		cout = create_string_buffer(maxEncSize)
 
-		# uchar* in, uint32 insize, uchar* out, uint32 outsize, config
-		encsize = CLIB['LZG_Encode'](rawtext, len(rawtext), cout, len(cout), config)
-		print encsize
-		
-		return rawtext
+		encSize = CLIB['LZG_Encode'](rawtext, len(rawtext), cout, len(cout), byref(config))
+	
+		ret = []
+		for i in range(encSize):
+			ret.append(ord(cout[i]))
+
+		return ret
 
 	def decompress(self, enctext):
-		return enctext
+
+		cin = create_string_buffer(len(enctext))
+		for i,val in enumerate(enctext):
+			cin[i] = chr(val)
+
+		estDecSize = CLIB['LZG_DecodedSize'](cin, len(cin))
+		cout = create_string_buffer(estDecSize)
+		decSize = CLIB['LZG_Decode'](cin, len(cin), cout, len(cout))
+
+		return string_at(cout, decSize)
+
