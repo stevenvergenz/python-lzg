@@ -1,4 +1,4 @@
 [submodule "liblzg"]
 	path = liblzg
-	url = git://gitorious.org/liblzg/vergenzs-liblzg.git
+	url = https://github.com/mbitsnbites/liblzg.git
 	ignore = dirty
